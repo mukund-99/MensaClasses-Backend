@@ -1,0 +1,81 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center"> Add Slider</h2>
+    </div>
+    <div class="col-md-12">
+        <p class="d-inline-flex gap-1">
+          <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Add Slider
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <div class="row">
+              <form action="/save-slider" method="POST" enctype="multipart/form-data">
+              <div class="col-md-12">
+                <label for="slider-image" class="form-label">Slider Image</label>
+                <input type="file" class="form-control" id="slider-image" name="slider_image">
+              </div>
+              <div class="col-12 text-center mt-3">
+                <button type="submit" class="btn btn-success">Add Slider</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Slider Image</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <% if (sliderslist.length === 0) { %>
+                <tr>
+                  <td colspan="3" class="text-center text-danger fw-bold">
+                    No Data Available
+                  </td>
+                </tr>
+              <% } else { %>
+
+                <% for (var i = 0; i < sliderslist.length; i++) { %>
+                  <tr>
+                    <th scope="row"><%= i + 1 %></th>
+
+                    <td>
+                      <img src="/uploads/<%= sliderslist[i].slider_image %>" alt="Slider Image" width="100">
+                    </td>
+
+                    <td>
+                      <a href="/edit-slider/<%= sliderslist[i].slider_id %>" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+
+                      <a href="/delete-slider/<%= sliderslist[i].slider_id %>" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                <% } %>
+
+              <% } %>
+
+            </tbody>
+          </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("admin-footer.ejs") %>

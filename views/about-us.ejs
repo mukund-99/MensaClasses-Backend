@@ -1,0 +1,93 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h2>Add About</h2>
+    </div>
+    <div class="col-12">
+      <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Add About
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <div class="container-fluid">
+            <div class="row">
+              <form action="/save-about-us" method="post" enctype="multipart/form-data">
+              <div class="col-12 mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" name="about_image" class="form-control" id="image" placeholder="Enter image" required>
+              </div>
+              <div class="col-12 mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" name="about_title" class="form-control" id="title" placeholder="Enter title" required>
+              </div>
+              <div class="col-12 mb-3">
+                <label for="content" class="form-label">Description:</label>
+                <textarea  name="about_description" class="form-control" id="about_description" rows="3" placeholder="Enter content" required></textarea>
+              </div>
+              <div class="col-12 mb-3 text-center">
+                <button type="submit" class="btn btn-success">Add About</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Sr.No.</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if (aboutlist.length > 0) { %>
+
+            <% for (let i = 0; i < aboutlist.length; i++) { %>
+              <tr>
+                <td class="text-center"><%= i + 1 %></td>
+                <td>
+                  <img src="/uploads/<%= aboutlist[i].about_image %>"
+                      alt="About Image" width="100">
+                </td>
+                <td><%= aboutlist[i].about_title %></td>
+                <td>
+                  <%- aboutlist[i].about_description.length > 70
+                        ? aboutlist[i].about_description.substring(0, 70) + "..."
+                        : aboutlist[i].about_description %>
+                </td>
+                <td class="text-center">
+                  <a href="/edit-about-us/<%= aboutlist[i].about_id %>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                </td>
+              </tr>
+            <% } %>
+
+          <% } else { %>
+
+            <tr>
+              <td colspan="4" class="text-center text-muted">
+                No Data Available
+              </td>
+            </tr>
+
+          <% } %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+  <%- include("admin-footer.ejs") %>

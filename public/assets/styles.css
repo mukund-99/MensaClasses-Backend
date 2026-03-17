@@ -1,0 +1,238 @@
+/* styles.css - admin panel custom styles */
+
+/* CSS Variables for themes */
+:root {
+  --bg: #f8f9fa;
+  --panel: #ffffff;
+  --muted: #6c757d;
+  --text: #212529;
+  --accent: #0d6efd;
+  --shadow: 0 6px 18px rgba(13,110,253,0.06);
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 72px;
+  --scrollbar-bg: rgba(0,0,0,0.06);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bg: #0b0d10;
+  --panel: #0f1720;
+  --muted: #9aa3b2;
+  --text: #e6eef6;
+  --accent: #4ea1ff;
+  --shadow: 0 6px 18px rgba(0,0,0,0.6);
+  --scrollbar-bg: rgba(255,255,255,0.06);
+}
+
+/* Reset body and base */
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page layout */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: linear-gradient(180deg, var(--panel), rgba(0,0,0,0));
+  border-right: 1px solid rgba(0,0,0,0.04);
+  transition: width 0.22s ease, transform 0.22s ease;
+  z-index: 1040;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="dark"] .admin-sidebar{
+  border-right-color: rgba(255,255,255,0.03);
+}
+
+/* Collapsed state */
+.admin-sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+.sidebar-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-top .sidebar-brand {
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sidebar-top .btn-icon {
+  border: none;
+  background: transparent;
+  color: var(--text);
+}
+
+/* Navigation */
+.sidebar-nav {
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sidebar-nav .nav-list li + li {
+  margin-top: 0.25rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: background .15s ease, transform .08s ease;
+}
+
+.nav-link i { width: 20px; text-align: center; }
+
+.nav-link:hover {
+  background: rgba(13,110,253,0.06);
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: linear-gradient(90deg, rgba(13,110,253,0.12), rgba(13,110,253,0.06));
+  color: var(--accent);
+  box-shadow: var(--shadow);
+  font-weight: 600;
+}
+
+/* Sidebar bottom */
+.sidebar-bottom {
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Offcanvas mobile override */
+.offcanvas.offcanvas-start {
+  width: 260px;
+}
+
+/* Page content shift when sidebar present */
+.page-content {
+  margin-left: var(--sidebar-width);
+  transition: margin-left .22s ease;
+  min-height: 100vh;
+}
+
+/* When sidebar collapsed */
+.admin-sidebar.collapsed + .page-content,
+.admin-sidebar.collapsed ~ .page-content {
+  margin-left: var(--sidebar-collapsed);
+}
+
+/* Topbar */
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background: var(--panel);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.admin-topbar .avatar-sm {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+
+/* Search bar */
+.topbar-search .input-group {
+  min-width: 220px;
+}
+
+/* Buttons */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.45rem;
+  background: transparent;
+}
+
+/* Footer */
+.admin-footer {
+  background: transparent;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  position: relative;
+  z-index: 1;
+}
+
+.card-glass {
+  background: var(--panel);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+  transition: transform .16s ease, box-shadow .2s ease;
+}
+
+[data-theme="dark"] .card-glass {
+  border-color: rgba(255,255,255,0.06);
+}
+
+.card-glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(13,110,253,0.10);
+}
+
+.sidebar-top .brand-text {
+  letter-spacing: .2px;
+}
+
+/* Custom scrollbar */
+.sidebar-nav::-webkit-scrollbar,
+.offcanvas-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track,
+.offcanvas-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb,
+.offcanvas-body::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-bg);
+  border-radius: 999px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991.98px) {
+  .admin-sidebar { transform: translateX(-110%); }
+  .admin-sidebar.show {
+    transform: translateX(0);
+  }
+  .page-content { margin-left: 0; }
+}
+
+/* Smooth transitions for UI polish */
+.admin-sidebar,
+.page-content,
+.admin-topbar,
+.nav-link {
+  transition: all 180ms ease;
+}
+
+/* Small helpers */
+.text-danger { color: #d9534f !important; }
+
+/* Accessibility focus */
+.nav-link:focus {
+  outline: 3px solid rgba(13,110,253,0.12);
+  outline-offset: 2px;
+}

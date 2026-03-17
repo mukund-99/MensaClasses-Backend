@@ -1,0 +1,72 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Why Choose Us</h2>
+    </div>
+    <div class="col-md-12">
+      <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Add Why Choose Us
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <div class="row">
+            <form action="/save-why-choose-us" method="POST" enctype="multipart/form-data">
+              <div class="col-md-12">
+                <label for="wcu_title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="wcu_title" name="wcu_title" placeholder="Enter title" required>
+              </div>
+              <div class="col-md-12">
+                <label for="wcu_img" class="form-label">Image</label>
+                <input type="file" class="form-control" id="wcu_img" name="wcu_image" required>
+              </div>
+              <div class="col-md-12 text-center mt-3">
+                <button type="submit" class="btn btn-success">Add Why Choose Us</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th class="text-center" scope="col">Image</th>
+                <th class="text-center" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (whychooseuslist.length === 0) { %>
+                <tr>
+                  <td colspan="4" class="text-center">No Data Available</td>
+                </tr>
+              <% } else { %>
+                <% for (let i = 0; i < whychooseuslist.length; i++) { %>
+                  <tr>
+                    <th class="text-center" scope="row"><%= i + 1 %></th>
+                    <td><%= whychooseuslist[i].wcu_title %></td>
+                    <td class="text-center" style="background-color: black;"><img src="/<%= whychooseuslist[i].wcu_image %>" width="50"></td>
+                    <td class="text-center">
+                      <a href="/edit-why-choose-us/<%= whychooseuslist[i].wcu_id %>" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+                      <a href="/delete-why-choose-us/<%= whychooseuslist[i].wcu_id %>" onclick="return confirm('Are you sure you want to delete this item?')" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("admin-footer.ejs") %>

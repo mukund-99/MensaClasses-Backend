@@ -1,0 +1,89 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Edit Testimonial</h2>
+    </div>
+
+    <div class="col-md-10 mx-auto mt-4">
+      <div class="card card-body shadow-sm">
+
+        <form action="/update-testimonial" method="POST" enctype="multipart/form-data" class="row g-3">
+
+          <input type="hidden" name="tm_id" value="<%= testimonialone[0].tm_id %>">
+
+          <div class="col-md-12">
+            <label class="form-label">Type:</label>
+
+            <select id="tm_type_display" class="form-select" disabled>
+              <option value="video" <%= testimonialone[0].tm_type === "video" ? "selected" : "" %>>Video</option>
+              <option value="testimonial" <%= testimonialone[0].tm_type === "testimonial" ? "selected" : "" %>>Testimonial</option>
+            </select>
+
+            <input type="hidden" name="tm_type" value="<%= testimonialone[0].tm_type %>">
+          </div>
+
+          <div id="videoBlock" class="col-md-12">
+            <label class="form-label">Video Link:</label>
+            <input type="text" class="form-control" name="tm_video" value="<%= testimonialone[0].tm_video %>" placeholder="https://www.youtube.com/embed/..." >
+          </div>
+
+          <div id="testimonialBlock" class="col-md-12">
+              
+            <label class="form-label">Name:</label>
+            <input type="text" name="tm_name" class="form-control" value="<%= testimonialone[0].tm_name %>" >
+
+            <label class="form-label mt-2">Text</label>
+            <textarea name="tm_text" rows="4" class="form-control"><%= testimonialone[0].tm_text %></textarea>
+
+            <div class="row"> 
+              <div class="col-md-6">
+                <label class="form-label mt-2">Image:</label>
+                <input type="file" name="tm_image" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <% if (testimonialone[0].tm_image) { %>
+                  <div class="mt-2">
+                    <img src="<%= testimonialone[0].tm_image %>" width="100" height="100" style="object-fit:cover;">
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 text-center mt-3">
+            <button class="btn btn-primary px-5" type="submit">Update</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const typeDisplay = document.getElementById("tm_type_display");
+  const videoBlock = document.getElementById("videoBlock");
+  const testimonialBlock = document.getElementById("testimonialBlock");
+
+  function toggleBlocks() {
+    const val = typeDisplay ? (typeDisplay.value || "") : "";
+    if (val === "video") {
+      videoBlock.style.display = "block";
+      testimonialBlock.style.display = "none";
+    } else {
+      videoBlock.style.display = "none";
+      testimonialBlock.style.display = "block";
+    }
+  }
+
+  if (typeDisplay) {
+    typeDisplay.addEventListener("change", toggleBlocks);
+  }
+  document.addEventListener("DOMContentLoaded", toggleBlocks);
+</script>
+
+<%- include("admin-footer.ejs") %>

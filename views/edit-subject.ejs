@@ -1,0 +1,48 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center">Edit Subject</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <form action="/update-subject" method="post" enctype="multipart/form-data" class="card p-3">
+        
+        <input type="hidden" name="subject_id" value="<%= subjectone[0].subject_id %>">
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="subject_name" class="form-label">Subject Name:</label>
+            <input type="text" name="subject_name" class="form-control" id="subject_name" value="<%= subjectone[0].subject_name %>" required />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="subject_description" class="form-label">Subject Description:</label>
+            <input type="text" name="subject_description" class="form-control" id="subject_description" value="<%= subjectone[0].subject_description %>" required />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="subject_image" class="form-label">Subject Image:</label>
+            <input type="file" name="subject_image" class="form-control" id="subject_image" accept="image/*" />
+            <small class="form-text text-muted">
+              * Only image files are allowed. png , jpg .
+            </small>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <img src="/<%= subjectone[0].subject_image %>" alt="Subject Image" style="max-height:60px; object-fit:cover;" />
+          </div>
+
+          <div class="col-12 text-center mt-2">
+            <button type="submit" class="btn btn-success px-4">Update Subject</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("admin-footer.ejs") %>

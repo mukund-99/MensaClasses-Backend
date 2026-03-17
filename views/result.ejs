@@ -1,0 +1,111 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center">Result</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="d-inline-flex gap-1">
+          <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Add Result
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                <form action="/save-result" method="POST" enctype="multipart/form-data">
+                  
+                  <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Student Name:</label>
+                      <input type="text" name="result_name" class="form-control" placeholder="Enter Student Name" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Rank Title:</label>
+                      <input type="text" name="result_rank_title" class="form-control" placeholder="e.g. 30 Rank, AIR 1" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Student Image:</label>
+                      <input type="file" name="result_image" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Category</label>
+                      <select name="result_category" class="form-control" required>
+                        <option value="">Select Category</option>
+                        <option value="toppers">Toppers</option>
+                        <option value="rankHolders">Rank Holders</option>
+                      </select>
+                    </div>
+
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-success">Save Result</button>
+                    </div>
+
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr class="text-center">
+              <th>Sr.No.</th>
+              <th>Name</th>
+              <th>Rank Title</th>
+              <th>Image</th>
+              <th>Category</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody class="text-center">
+
+            <% if (results.length > 0) { %>
+
+              <% for (var i = 0; i < results.length; i++) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= results[i].result_name %></td>
+                  <td><%= results[i].result_rank_title %></td>
+                  <td>
+                    <img src="/uploads/<%= results[i].result_image %>" alt="Student Image" width="85" height="50">
+                  </td>
+                  <td><%= results[i].result_category.charAt(0).toUpperCase() + results[i].result_category.slice(1) %></td>
+                  <td>
+                    <a href="/edit-result/<%= results[i].result_id %>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                    <a href="/delete-result/<%= results[i].result_id %>" onclick="return confirm('Are you sure you want to delete this result?')" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                  </td>
+                </tr>
+              <% } %>
+
+            <% } else { %>
+
+              <tr>
+                <td colspan="5" class="text-center text-muted">
+                  No data available
+                </td>
+              </tr>
+
+            <% } %>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("admin-footer.ejs") %>

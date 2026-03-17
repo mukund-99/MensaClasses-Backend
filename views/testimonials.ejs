@@ -1,0 +1,251 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center mb-3">Testimonials</h2>
+    </div>
+
+    <div class="col-12">
+      <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button">
+        Add Testimonial
+      </a>
+
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+          <form action="/save-testimonial" method="POST" enctype="multipart/form-data" class="row g-3">
+
+            <!-- Type -->
+            <div class="col-md-12">
+              <label for="tm_type" class="form-label">Type:</label>
+              <select id="tm_type" name="tm_type" class="form-select" required>
+                <option value="">-- Select Type --</option>
+                <option value="video">Video</option>
+                <option value="testimonial">Testimonial</option>
+              </select>
+            </div>
+
+            <!-- Video Block -->
+            <div id="videoBlock" class="col-md-12" style="display:none;">
+              <label for="tm_video" class="form-label">YouTube Link:</label>
+              <input type="url" id="tm_video" name="tm_video" class="form-control" placeholder="https://www.youtube.com/..." />
+            </div>
+
+            <!-- Testimonial Block -->
+            <div id="testimonialBlock" class="col-12" style="display:none;">
+
+              <div class="mb-3">
+                <label for="tm_name" class="form-label">Name:</label>
+                <input type="text" id="tm_name" name="tm_name" class="form-control" placeholder="Enter Name" />
+              </div>
+
+              <div class="mb-3">
+                <label for="tm_text" class="form-label">Text:</label>
+                <textarea id="tm_text" name="tm_text" rows="4" class="form-control" placeholder="Enter description"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="tm_image" class="form-label">Image (optional)</label>
+                <input type="file" id="tm_image" name="tm_image" class="form-control" accept="image/*" />
+              </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary">Add Testimonial</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            <h3 class="mt-4 mb-3 text-primary">Video List</h3>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th>Video Link</th>
+                  <th>Video Preview</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% let serialforvideo = 1; %>
+
+                <% for (var i = 0; i < testimonials.length; i++) { %>
+                  <% if (testimonials[i].tm_type === "video") { %>
+                    <tr>
+                      <td class="text-center"><%= serialforvideo %></td>
+                      
+                      <td><%= testimonials[i].tm_video %></td>
+
+                      <td>
+                        <iframe 
+                          src="<%= testimonials[i].tm_video %>" 
+                          width="150" height="75" frameborder="0">
+                        </iframe>
+                      </td>
+
+                      <td class="text-center">
+                        <a href="/edit-testimonial/<%= testimonials[i].tm_id %>" class="btn btn-warning btn-sm">
+                          <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <a href="/delete-testimonial/<%= testimonials[i].tm_id %>"
+                          onclick="return confirm('Are you sure you want to delete this video?');"
+                          class="btn btn-danger btn-sm">
+                          <i class="bi bi-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+
+                    <% serialforvideo++; %> <!-- INCREMENT ONLY FOR VIDEOS -->
+                  <% } %>
+                <% } %>
+              </tbody>
+
+
+            </table>
+
+            <h3 class="mt-5 mb-3 text-success">Testimonial List</h3>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th>Name</th>
+                  <th>Text</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% let serialfortestimonial = 1; %>
+
+                  <% for (var i = 0; i < testimonials.length; i++) { %>
+                    <% if (testimonials[i].tm_type === "testimonial") { %>
+                      <tr>
+                        <td class="text-center"><%= serialfortestimonial %></td> 
+
+                        <td><%= testimonials[i].tm_name %></td>
+
+                        <td 
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top" 
+                          title="<%= testimonials[i].tm_text %>"
+                        >
+                          <%= testimonials[i].tm_text.substring(0, 100) %>...
+                        </td>
+
+                        <td>
+                          <% if (testimonials[i].tm_image) { %>
+                            <img 
+                              src="<%= testimonials[i].tm_image %>" 
+                              width="80" height="80" 
+                              style="object-fit:cover;"
+                            >
+                          <% } %>
+                        </td>
+
+                        <td class="text-center">
+                          <a href="/edit-testimonial/<%= testimonials[i].tm_id %>" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                          </a>
+
+                          <a href="/delete-testimonial/<%= testimonials[i].tm_id %>"
+                            onclick="return confirm('Are you sure you want to delete this testimonial?');"
+                            class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      <% serialfortestimonial++; %>
+                    <% } %>
+                  <% } %>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS Toggle -->
+<script>
+  const typeEl = document.getElementById('tm_type');
+  const videoBlock = document.getElementById('videoBlock');
+  const testimonialBlock = document.getElementById('testimonialBlock');
+
+  const tmVideo = document.getElementById('tm_video');
+  const tmName = document.getElementById('tm_name');
+  const tmText = document.getElementById('tm_text');
+  const tmImage = document.getElementById('tm_image');
+
+  function toggleBlocks() {
+    const v = typeEl.value;
+
+    if (v === 'video') {
+      // SHOW video inputs
+      videoBlock.style.display = 'block';
+      testimonialBlock.style.display = 'none';
+
+      // MAKE video required
+      tmVideo.required = true;
+
+      // REMOVE testimonial required
+      tmName.required = false;
+      tmText.required = false;
+      tmImage.required = false;
+
+      // CLEAR testimonial fields
+      tmName.value = '';
+      tmText.value = '';
+      tmImage.value = '';
+    }
+    else if (v === 'testimonial') {
+      // SHOW testimonial inputs
+      videoBlock.style.display = 'none';
+      testimonialBlock.style.display = 'block';
+
+      // MAKE testimonial fields required
+      tmName.required = true;
+      tmText.required = true;
+      tmImage.required = true;
+
+      // REMOVE video required
+      tmVideo.required = false;
+
+      // CLEAR video field
+      tmVideo.value = '';
+    }
+    else {
+      // NONE selected
+      videoBlock.style.display = 'none';
+      testimonialBlock.style.display = 'none';
+
+      // remove all required attributes
+      tmVideo.required = false;
+      tmName.required = false;
+      tmText.required = false;
+      tmImage.required = false;
+    }
+  }
+
+  typeEl.addEventListener('change', toggleBlocks);
+  document.addEventListener('DOMContentLoaded', toggleBlocks);
+</script>
+<script>
+  var tooltipTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTrigger.map(function (el) {
+    return new bootstrap.Tooltip(el);
+  });
+</script>
+
+
+
+<%- include("admin-footer.ejs") %>

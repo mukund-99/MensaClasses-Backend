@@ -1,0 +1,49 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-12">
+      <h2 class="text-center">Edit About Us</h2>
+    </div>
+  </div>
+
+  <form action="/update-about-us" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="about_id" value="<%= aboutone[0].about_id %>">
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="image" class="form-label">Image:</label>
+        <input type="file" name="about_image" class="form-control" id="image">
+        <small>Leave blank if don't want to update</small>
+      </div>
+
+      <div class="col-md-6 mb-3 d-flex align-items-center">
+        <% if (aboutone[0].about_image) { %>
+          <img src="/uploads/<%= aboutone[0].about_image %>" alt="About Image" width="120" class="img-thumbnail">
+        <% } else { %>
+          <div class="text-muted">No image uploaded</div>
+        <% } %>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" name="about_title" class="form-control" id="title"
+               placeholder="Enter title" value="<%= aboutone[0].about_title %>" required>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label for="about_description" class="form-label">Description:</label>
+        <textarea name="about_description" class="form-control" id="about_description" rows="6"
+                  placeholder="Enter content" required><%- aboutone[0].about_description %></textarea>
+      </div>
+
+      <div class="col-12 text-center">
+        <a href="/about-us" class="btn btn-secondary me-2">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update About</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<%- include("admin-footer.ejs") %>

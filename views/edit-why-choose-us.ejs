@@ -1,0 +1,42 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">Edit Why Choose Us</h1>
+    </div>
+  </div>
+
+  <form action="/update-why-choose-us" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="wcu_id" value="<%= whychooseusone[0].wcu_id %>">
+
+    <div class="row">
+      <div class="col-12 mb-3">
+        <label for="wcu_title" class="form-label">Title:</label>
+        <input type="text" name="wcu_title" class="form-control" id="wcu_title"
+               value="<%= whychooseusone[0].wcu_title %>" required>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="wcu_image" class="form-label">Image:</label>
+        <input type="file" name="wcu_image" class="form-control" id="wcu_image">
+        <small class="text-muted">Leave blank to keep current image</small>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Current Image:</label>
+        <div style="height: 150px; width: 150px; background-color: black;" class="text-center justify-content-center align-items-center d-flex">
+          <img src="/<%= whychooseusone[0].wcu_image %>" width="120" class="border rounded" class="img-fluid">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">Update</button>
+    </div>
+
+  </form>
+</div>
+
+<%- include("admin-footer.ejs") %>

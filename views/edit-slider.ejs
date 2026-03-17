@@ -1,0 +1,43 @@
+<%- include("admin-topbar.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center mt-4">Edit Slider</h2>
+    </div>
+
+    <div class="col-12">
+      <form action="/update-slider" method="post" enctype="multipart/form-data">
+        
+        <input type="hidden" name="slider_id" value="<%= slidersone[0].slider_id %>">
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label for="slider-image" class="form-label">Slider Image</label>
+            <input type="file" class="form-control" id="slider-image" name="slider_image">
+            <small class="form-text text-muted">
+              Recommended image size: 1920x1080px
+            </small>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Current Slider Image:</label>
+            <img src="/uploads/<%= slidersone[0].slider_image %>" 
+                 alt="Current Slider Image" 
+                 class="img-fluid border rounded" 
+                 style="max-height: 100px;">
+          </div>
+
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">Update Slider</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("admin-footer.ejs") %>
